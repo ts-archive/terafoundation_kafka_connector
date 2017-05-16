@@ -8,13 +8,15 @@ This connector exposes two different client implementations. One for producers `
 
 ## `kafka_producer` parameters
 
-Name | Description | Default
-brokers | List of kafka brokers to use | localhost:9092
+| Name | Description | Default |
+| ---- | ----------- | ------- |
+| brokers | List of kafka brokers to use | localhost:9092 |
 
 ## `kafka_consumer` parameters
 
-Name | Description | Default
-brokers | List of kafka brokers to use | localhost:9092
+| Name | Description | Default |
+| ---- | ----------- | ------- |
+| brokers | List of kafka brokers to use | localhost:9092 |
 
 # Configuration example
 
