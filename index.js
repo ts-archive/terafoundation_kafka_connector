@@ -27,7 +27,6 @@ function create(config, logger) {
         client.setPollInterval(100);
     }
 
-    // TODO: should this be here?
     client.connect({}, function(err) {
         if (err) {
             logger.error("Error connecting to Kafka: " + err);
