@@ -6,17 +6,12 @@ This connector exposes two different client implementations. One for producers `
 
 # Parameters
 
-## `type: producer` parameters
+| Name | Description | Default | Required |
+| ---- | ----------- | ------- | -------- |
+| type | What type of connector is required. "consumer" or "producer". | consumer | N |
+| brokers | List of kafka brokers to use | localhost:9092 | N |
+| group | Consumer group to join. Only applies to type: consumer | Y for consumer |
 
-| Name | Description | Default |
-| ---- | ----------- | ------- |
-| brokers | List of kafka brokers to use | localhost:9092 |
-
-## `type: consumer` parameters
-
-| Name | Description | Default |
-| ---- | ----------- | ------- |
-| brokers | List of kafka brokers to use | localhost:9092 |
 
 # Configuration example
 
