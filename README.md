@@ -10,7 +10,7 @@ This connector exposes two different client implementations. One for producers `
 | ---- | ----------- | ------- | -------- |
 | type | What type of connector is required. "consumer" or "producer". | consumer | N |
 | brokers | List of kafka brokers to use | localhost:9092 | N |
-| group | Consumer group to join. Only applies to type: consumer | Y for consumer |
+| group | Consumer group to join. Only applies to type: consumer | | Y for consumer |
 
 
 # Configuration example
