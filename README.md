@@ -1,3 +1,11 @@
+# Connector - terafoundation_kafka_connector
+
+To install from the root of your terafoundation based service.
+
+```
+npm install terascope/terafoundation_kafka_connector
+```
+
 # Description
 
 Terafoundation connector for Kafka producer and consumer clients.
