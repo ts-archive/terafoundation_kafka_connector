@@ -2,17 +2,17 @@
 
 Terafoundation connector for Kafka producer and consumer clients.
 
-This connector exposes two different client implementations. One for producers `kafka_producer` and one for consumers `kafka_consumer`. 
+This connector exposes two different client implementations. One for producers `type: producer` and one for consumers `type: consumer`.
 
 # Parameters
 
-## `kafka_producer` parameters
+## `type: producer` parameters
 
 | Name | Description | Default |
 | ---- | ----------- | ------- |
 | brokers | List of kafka brokers to use | localhost:9092 |
 
-## `kafka_consumer` parameters
+## `type: consumer` parameters
 
 | Name | Description | Default |
 | ---- | ----------- | ------- |
@@ -23,8 +23,13 @@ This connector exposes two different client implementations. One for producers `
 ```
 terafoundation:
     connectors:
-        kafka_producer:
-            default:
+        kafka:
+            producer1:
+                type: producer
+                brokers:
+                    - "localhost:9092"
+            consumer1:
+                type: consumer
                 brokers:
                     - "localhost:9092"
 
