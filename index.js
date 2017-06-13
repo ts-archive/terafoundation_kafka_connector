@@ -1,21 +1,28 @@
 'use strict';
 
-function create(config, logger) {
+function create(config, logger, settings) {
     logger.info("Setting up Kafka " + config.type + " with brokers: " + config.brokers);
     var Kafka = require("node-rdkafka");
 
     var client;
 
-    if (config.type === "consumer") {
+    // Group can be passed in when the connection is requested by the
+    // application or configured in terafoundation config.
+    var group = settings.options.group;
+    if (! group) group = config.group;
+
+    if (settings.options.type.toLowerCase() === "consumer") {
+        logger.info("Creating a Kafka consumer for group: " + group);
         client = new Kafka.KafkaConsumer({
-            'group.id': config.group,
+            'group.id': group,
             'metadata.broker.list': config.brokers
         }, {
             // TODO: we'll want to expose some of these settings
             "auto.offset.reset": "smallest"
         });
     }
-    else if (config.type === "producer") {
+    else if (settings.options.type.toLowerCase() === "producer") {
+        // TODO: all of these options should be over-rideable using settings.options.
         client = new Kafka.Producer({
           'metadata.broker.list': config.brokers,
           'queue.buffering.max.messages': 500000,
@@ -23,8 +30,9 @@ function create(config, logger) {
           'batch.num.messages': 100000,
         });
 
-        // TODO: this should probably be configurable.
-        client.setPollInterval(100);
+        var pollInterval = 100;
+        if (settings.options.pollInterval) pollInterval = settings.options.pollInterval;
+        client.setPollInterval(pollInterval);
     }
 
     client.connect({}, function(err) {
@@ -41,20 +49,17 @@ function create(config, logger) {
 
 function config_schema() {
     return {
-        type: {
-            doc: 'What type of connector is required. Defaults to "consumer".',
-            default: 'consumer',
-            format: ['consumer', 'producer']
-        },
         brokers: {
             doc: 'List of seed brokers for the kafka environment',
             default: ["localhost:9092"],
             format: Array
         },
-        group: {
-            doc: 'Consumer group to join. Applies to type: consumer',
-            default: "terafoundation",
-            format: String
+        options: {
+            doc: 'Connector specific configuration. Specifies `type` and `group`.',
+            default: {
+                type: 'consumer',
+                group: 'terafoundation_kafka_connector'
+            }
         }
     }
 }
