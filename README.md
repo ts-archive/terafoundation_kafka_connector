@@ -27,13 +27,6 @@ This connector exposes two different client implementations. One for producers `
 terafoundation:
     connectors:
         kafka:
-            producer1:
-                type: producer
-                brokers:
-                    - "localhost:9092"
-            consumer1:
-                type: consumer
-                brokers:
-                    - "localhost:9092"
-
+            my_kafka:
+                brokers: "localhost:9092"
 ```
