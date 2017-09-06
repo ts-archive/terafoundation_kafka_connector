@@ -11,11 +11,15 @@ function create(config, logger, settings) {
     var group = settings.options.group;
     if (! group) group = config.group;
 
+    var autocommit = settings.options.autocommit;
+    if (autocommit == undefined) autocommit = false;
+
     if (settings.options.type.toLowerCase() === "consumer") {
         logger.info("Creating a Kafka consumer for group: " + group);
         client = new Kafka.KafkaConsumer({
             'group.id': group,
-            'metadata.broker.list': config.brokers
+            'metadata.broker.list': config.brokers,
+            'enable.auto.commit': autocommit
         }, {
             // TODO: we'll want to expose some of these settings
             "auto.offset.reset": "smallest"
