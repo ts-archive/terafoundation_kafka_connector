@@ -29,6 +29,7 @@ function create(config, logger, settings) {
         // Default settings for the client. This uses the options we defined
         // before exposing all the settings available to rdkafka
         let clientOptions = {
+            'rebalance_cb': true,
             'group.id': group,
             'metadata.broker.list': config.brokers,
         };
