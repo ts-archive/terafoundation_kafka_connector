@@ -1,8 +1,12 @@
 {
   "name": "terafoundation_kafka_connector",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Terafoundation connector for Kafka producer and consumer clients.",
   "main": "index.js",
+  "scripts": {
+    "lint": "eslint --format codeframe index.js spec",
+    "test": "nyc -x spec/ --reporter=text-summary jasmine && nyc report --reporter=html"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/terascope/terafoundation_kafka_connector.git"
@@ -18,6 +22,7 @@
     "node-rdkafka": "2.1.1"
   },
   "devDependencies": {
+    "convict": "^1.0.1",
     "eslint": "^4.6.1",
     "eslint-config-airbnb": "^15.1.0",
     "eslint-plugin-import": "^2.7.0",
