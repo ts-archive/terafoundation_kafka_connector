@@ -15,7 +15,6 @@ const _ = require('lodash');
  * rdkafka settings: https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
  */
 function create(config, logger, settings) {
-    logger.info(`Setting up Kafka ${config.type} with brokers: ${config.brokers}`);
     const Kafka = require('node-rdkafka');
 
     let client;
@@ -70,12 +69,14 @@ function create(config, logger, settings) {
         client.setPollInterval(pollInterval);
     }
 
-    client.connect({}, (err) => {
-        if (err) {
-            logger.error(`Error connecting to Kafka: ${err}`);
-            throw err;
-        }
-    });
+    if (settings.autoconnect) {
+        client.connect({}, (err) => {
+            if (err) {
+                logger.error(`Error connecting to Kafka: ${err}`);
+                throw err;
+            }
+        });
+    }
 
     return {
         client
@@ -95,6 +96,11 @@ function configSchema() {
                 type: 'consumer',
                 group: 'terafoundation_kafka_connector'
             }
+        },
+        autoconnect: {
+            doc: 'Automatically connect?  Disable if need to register event handlers first.',
+            default: true,
+            format: Boolean
         },
         topic_options: {
             doc: 'librdkafka defined settings that apply per topic.',
