@@ -10,6 +10,7 @@ const _ = require('lodash');
  *     rdkafka_options: {} // Options for the node-rdkafka object.
  *          Valid options here are as defined by rdkafka
  *     topic_options: {} // Options as defined for rdkafka that are topic specific
+ *     autoconnect: true // Whether the client should autoconnect or not.
  * }
  *
  * rdkafka settings: https://github.com/edenhill/librdkafka/blob/master/CONFIGURATION.md
@@ -69,11 +70,14 @@ function create(config, logger, settings) {
         client.setPollInterval(pollInterval);
     }
 
-    if (settings.autoconnect) {
+    // Default to autoconnecting but can be disabled.
+    if (settings.autoconnect || settings.autoconnect === undefined) {
         client.connect({}, (err) => {
             if (err) {
                 logger.error(`Error connecting to Kafka: ${err}`);
                 throw err;
+            } else {
+                logger.info('Kafka connection initialized.');
             }
         });
     }
@@ -89,26 +93,6 @@ function configSchema() {
             doc: 'List of seed brokers for the kafka environment',
             default: ['localhost:9092'],
             format: Array
-        },
-        options: {
-            doc: 'Connector specific configuration. Specifies `type` and `group`.',
-            default: {
-                type: 'consumer',
-                group: 'terafoundation_kafka_connector'
-            }
-        },
-        autoconnect: {
-            doc: 'Automatically connect?  Disable if need to register event handlers first.',
-            default: true,
-            format: Boolean
-        },
-        topic_options: {
-            doc: 'librdkafka defined settings that apply per topic.',
-            default: {}
-        },
-        rdkafka_options: {
-            doc: 'librdkafka defined settings that are not subscription specific.',
-            default: {}
         }
     };
 }
