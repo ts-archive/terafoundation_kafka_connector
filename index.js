@@ -70,13 +70,6 @@ function create(config, logger, settings) {
         client.setPollInterval(pollInterval);
     }
 
-    client.connect({}, (err) => {
-        if (err) {
-            logger.error(`Error connecting to Kafka: ${err}`);
-            throw err;
-        }
-    });
-
     return {
         client
     };
